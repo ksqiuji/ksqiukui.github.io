@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秋葵指令 - 文档</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #7a6ff0;
+            --accent: #fd79a8;
+            --light: #f8f9fa;
+            --dark: #2d3436;
+            --sidebar-width: 280px;
+            --radius: 8px;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9fafb;
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* 侧边栏样式 */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid #eaeaea;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+        
+        .sidebar-section h3 {
+            font-size: 1rem;
+            color: #636e72;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .sidebar-nav {
+            list-style: none;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 8px;
+        }
+        
+        .sidebar-nav a {
+            display: block;
+            text-decoration: none;
+            color: #4a5568;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+        
+        .sidebar-nav a:hover {
+            background-color: #f1f3f9;
+            color: var(--primary);
+        }
+        
+        .sidebar-nav a.active {
+            background-color: #f1f3f9;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .divider {
+            height: 1px;
+            background: #eaeaea;
+            margin: 20px 0;
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            background: #f8fafc;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        
+        .search-hint {
+            font-size: 0.75rem;
+            color: #a0aec0;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        /* 主内容区域样式 */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 40px;
+            max-width: 800px;
+        }
+        
+        .content-section {
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        .content-section h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-weight: 700;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .content-section h2 {
+            font-size: 1.6rem;
+            margin: 35px 0 20px;
+            color: var(--dark);
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f1f2f6;
+        }
+        
+        .content-section h3 {
+            font-size: 1.3rem;
+            margin: 30px 0 15px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .content-section p {
+            margin-bottom: 20px;
+            color: #4a5568;
+        }
+        
+        .alert {
+            padding: 20px;
+            background: #fff9e6;
+            border-left: 4px solid #ffce54;
+            border-radius: 4px;
+            margin: 25px 0;
+        }
+        
+        .alert h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: #e6b01e;
+            font-weight: 600;
+        }
+        
+        .alert-icon {
+            color: #e6b01e;
+            font-size: 1.2rem;
+        }
+        
+        /* 代码样式 */
+        code {
+            background-color: #f1f3f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        /* 目录导航 */
+        .on-this-page {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 220px;
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+        
+        .on-this-page h3 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .on-this-page-nav {
+            list-style: none;
+        }
+        
+        .on-this-page-nav li {
+            margin-bottom: 10px;
+        }
+        
+        .on-this-page-nav a {
+            display: block;
+            text-decoration: none;
+            color: #4a5568;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+            padding: 4px 0;
+        }
+        
+        .on-this-page-nav a:hover {
+            color: var(--primary);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .on-this-page {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 30px 20px;
+            }
+            
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1100;
+                background: var(--primary);
+                color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: var(--shadow);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .content-section {
+                padding: 20px;
+            }
+            
+            .content-section h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* 内容样式增强 */
+        .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+        
+        .note {
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .note-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>qiukui Command</span>
+        </div>
+        
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="搜索文档">
+            <div class="search-hint">Ctrl+K</div>
+        </div>
+        
+        <div class="sidebar-section">
+            <h3>最常用的指令</h3>
+            <ul class="sidebar-nav">
+                <li><a href="1.html">介绍</a></li>
+                <li><a href="2.html">基础 - tp指令</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>稍微少用一点的指令</h3>
+            <ul class="sidebar-nav">
+                <li><a href="3.html" class="active">基础 - 游戏模式</a></li>
+                <li><a href="4.html">进阶 - tag标签</a></li>
+                <li><a href="5.html">进阶 - 距离（r）</a></li>
+                <li><a href="6.html">基础 - give指令</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>综合</h3>
+            <ul class="sidebar-nav">
+                <li><a href="7.html">§符号</a></li>
+                <li><a href="8.html">邮箱</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>本页导航</h3>
+            <ul class="sidebar-nav">
+                <li><a href="#介绍">游戏模式概述</a></li>
+                <li><a href="#基本用法">基本用法</a></li>
+                <li><a href="#模式代码">模式代码与数字</a></li>
+                <li><a href="#选择器">使用选择器</a></li>
+                <li><a href="#注意事项">注意事项</a></li>
+            </ul>
+        </div>
+    </aside>
+    
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <div class="content-section">
+            <h1>基础 - 游戏模式 (gamemode)</h1>
+            
+            <h2 id="介绍">游戏模式概述</h2>
+            <p>gamemode指令用于更改玩家的游戏模式。Minecraft基岩版有四种主要的游戏模式：生存模式、创造模式、冒险模式和旁观模式。</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>基本语法</span>
+                </div>
+                <p>gamemode指令的基本格式：<code>/gamemode &lt;模式&gt; [玩家]</code></p>
+            </div>
+            
+            <h2 id="基本用法">基本用法</h2>
+            <p>1. 更改自己的游戏模式：<code>/gamemode creative</code></p>
+            <p>2. 更改其他玩家的游戏模式：<code>/gamemode survival 玩家名</code></p>
+            <p>3. 使用数字代码更改模式：<code>/gamemode 1 @a</code></p>
+            
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 重要提示</h4>
+                <p>在基岩版中，您需要有适当的权限才能使用gamemode指令。在多人游戏中，通常需要管理员或OP权限。</p>
+            </div>
+            
+            <h2 id="模式代码">模式代码与数字</h2>
+            <p>在Minecraft基岩版中，可以使用模式名称或数字代码：</p>
+            <p>• <code>survival</code> 或 <code>0</code> - 生存模式</p>
+            <p>• <code>creative</code> 或 <code>1</code> - 创造模式</p>
+            <p>• <code>adventure</code> 或 <code>2</code> - 冒险模式</p>
+            <p>• <code>spectator</code> 或 <code>3</code> - 旁观模式 (基岩版1.19.10及以上)</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>示例</span>
+                </div>
+                <p><code>/gamemode 1</code> - 将自己的模式改为创造模式</p>
+                <p><code>/gamemode adventure Steve</code> - 将Steve改为冒险模式</p>
+                <p><code>/gamemode 0 @a</code> - 将所有玩家改为生存模式</p>
+            </div>
+            
+            <h2 id="选择器">使用选择器</h2>
+            <p>Minecraft基岩版提供了多种选择器来精确定位玩家：</p>
+            <p>• <code>@p</code> - 最近的玩家</p>
+            <p>• <code>@a</code> - 所有玩家</p>
+            <p>• <code>@r</code> - 随机玩家</p>
+            <p>• <code>@e</code> - 所有实体 (但gamemode只能用于玩家)</p>
+            
+            <h3>选择器示例</h3>
+            <p><code>/gamemode creative @a</code> - 将所有玩家改为创造模式</p>
+            <p><code>/gamemode survival @r</code> - 将随机玩家改为生存模式</p>
+            <p><code>/gamemode adventure @p</code> - 将最近的玩家改为冒险模式</p>
+            
+            <h2 id="注意事项">注意事项</h2>
+            <p>1. 在基岩版中，旁观模式需要版本1.19.10或更高</p>
+            <p>2. 冒险模式可以防止玩家破坏方块，适合制作冒险地图</p>
+            <p>3. 使用选择器时要注意权限，避免意外更改其他玩家的模式</p>
+            <p>4. 在命令方块中使用时，确保有适当的红石信号触发</p>
+            
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 版本兼容性</h4>
+                <p>基岩版和Java版的gamemode指令语法基本相同，但有些细微差别。本文档专注于基岩版用法。</p>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 右侧目录导航 -->
+    <div class="on-this-page">
+        <h3>本页导航</h3>
+        <ul class="on-this-page-nav">
+            <li><a href="#介绍">游戏模式概述</a></li>
+            <li><a href="#基本用法">基本用法</a></li>
+            <li><a href="#模式代码">模式代码与数字</a></li>
+            <li><a href="#选择器">使用选择器</a></li>
+            <li><a href="#注意事项">注意事项</a></li>
+        </ul>
+    </div>
+    
+    <!-- 移动端菜单切换按钮 -->
+    <div class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <script>
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // 点击主内容区域关闭侧边栏（移动端）
+        document.querySelector('.main-content').addEventListener('click', () => {
+            if (window.innerWidth < 992) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // 搜索框功能
+        const searchInput = document.querySelector('.search-box input');
+        
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+        });
+        
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // 如果是移动端，关闭侧边栏
+                    if (window.innerWidth < 992) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

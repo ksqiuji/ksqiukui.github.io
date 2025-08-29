@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秋葵指令 - §符号教程</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #7a6ff0;
+            --accent: #fd79a8;
+            --light: #f8f9fa;
+            --dark: #2d3436;
+            --sidebar-width: 280px;
+            --radius: 8px;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9fafb;
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* 侧边栏样式 */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid #eaeaea;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+        
+        .sidebar-section h3 {
+            font-size: 1rem;
+            color: #636e72;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .sidebar-nav {
+            list-style: none;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 8px;
+        }
+        
+        .sidebar-nav a {
+            display: block;
+            text-decoration: none;
+            color: #4a5568;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+        
+        .sidebar-nav a:hover {
+            background-color: #f1f3f9;
+            color: var(--primary);
+        }
+        
+        .sidebar-nav a.active {
+            background-color: #f1f3f9;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .divider {
+            height: 1px;
+            background: #eaeaea;
+            margin: 20px 0;
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            background: #f8fafc;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        
+        .search-hint {
+            font-size: 0.75rem;
+            color: #a0aec0;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        /* 主内容区域样式 */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 40px;
+            max-width: 800px;
+        }
+        
+        .content-section {
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        .content-section h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-weight: 700;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .content-section h2 {
+            font-size: 1.6rem;
+            margin: 35px 0 20px;
+            color: var(--dark);
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f1f2f6;
+        }
+        
+        .content-section h3 {
+            font-size: 1.3rem;
+            margin: 30px 0 15px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .content-section p {
+            margin-bottom: 20px;
+            color: #4a5568;
+        }
+        
+        .alert {
+            padding: 20px;
+            background: #fff9e6;
+            border-left: 4px solid #ffce54;
+            border-radius: 4px;
+            margin: 25px 0;
+        }
+        
+        .alert h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: #e6b01e;
+            font-weight: 600;
+        }
+        
+        .alert-icon {
+            color: #e6b01e;
+            font-size: 1.2rem;
+        }
+        
+        /* 目录导航 */
+        .on-this-page {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 220px;
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+        
+        .on-this-page h3 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .on-this-page-nav {
+            list-style: none;
+        }
+        
+        .on-this-page-nav li {
+            margin-bottom: 10px;
+        }
+        
+        .on-this-page-nav a {
+            display: block;
+            text-decoration: none;
+            color: #4a5568;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+            padding: 4px 0;
+        }
+        
+        .on-this-page-nav a:hover {
+            color: var(--primary);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .on-this-page {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 30px 20px;
+            }
+            
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1100;
+                background: var(--primary);
+                color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: var(--shadow);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .content-section {
+                padding: 20px;
+            }
+            
+            .content-section h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* 内容样式增强 */
+        .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+        
+        .note {
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .note-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 8px;
+        }
+
+        /* 代码样式 */
+        code {
+            background-color: #f1f3f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        pre code {
+            display: block;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            line-height: 1.5;
+            background-color: #2d3436;
+            color: #f8f9fa;
+            border-radius: var(--radius);
+        }
+        
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .color-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .color-preview {
+            height: 60px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .format-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .format-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .example {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 15px;
+            border-radius: var(--radius);
+            margin: 15px 0;
+        }
+        
+        .mc-text {
+            font-family: 'Minecraft', monospace;
+            font-size: 1.1rem;
+        }
+        
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+        
+        .copy-btn:hover {
+            background: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>qiukui Command</span>
+        </div>
+        
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="搜索文档">
+            <div class="search-hint">Ctrl+K</div>
+        </div>
+        
+        <div class="sidebar-section">
+            <h3>最常用的指令</h3>
+            <ul class="sidebar-nav">
+                <li><a href="1.html">介绍</a></li>
+                <li><a href="2.html">基础 - tp指令</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>稍微少用一点的指令</h3>
+            <ul class="sidebar-nav">
+                <li><a href="3.html">基础 - 游戏模式</a></li>
+                <li><a href="4.html">进阶 - tag标签</a></li>
+                <li><a href="5.html">进阶 - 距离（r）</a></li>
+                <li><a href="6.html">基础 - give指令</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>综合</h3>
+            <ul class="sidebar-nav">
+                <li><a href="7.html" class="active">§符号</a></li>
+                <li><a href="8.html">邮箱</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>本页导航</h3>
+            <ul class="sidebar-nav">
+                <li><a href="#介绍">§符号概述</a></li>
+                <li><a href="#输入方法">输入方法</a></li>
+                <li><a href="#颜色代码">颜色代码</a></li>
+                <li><a href="#格式代码">格式代码</a></li>
+                <li><a href="#使用示例">使用示例</a></li>
+                <li><a href="#注意事项">注意事项</a></li>
+            </ul>
+        </div>
+    </aside>
+    
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <div class="content-section">
+            <h1>§符号使用教程</h1>
+            
+            <h2 id="介绍">§符号概述</h2>
+            <p>§符号（段落符号）是Minecraft中用于格式化文本的特殊字符。在基岩版中，§符号后跟一个字符（数字0-9或字母a-f, k-o, r）可以指定文本的颜色和格式。</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>基本语法</span>
+                </div>
+                <p>格式：<code>§ + [代码]</code></p>
+                <p>示例：<code>§a这是一段绿色文本</code></p>
+            </div>
+            
+            <h2 id="输入方法">§符号输入方法</h2>
+            <p>在不同的设备和平台上，输入§符号的方法有所不同：</p>
+            
+            <div class="format-grid">
+                <div class="format-card">
+                    <h4>Windows系统</h4>
+                    <p>按住<code>Alt</code>键，在数字键盘上输入<code>21</code>或<code>0167</code>，然后释放<code>Alt</code>键</p>
+                </div>
+                
+                <div class="format-card">
+                    <h4>Mac系统</h4>
+                    <p>按下<code>Option + 6</code>组合键</p>
+                </div>
+                
+                <div class="format-card">
+                    <h4>手机/平板</h4>
+                    <p>长按<code>&</code>符号，从弹出选项中选择§符号</p>
+                </div>
+                
+                <div class="format-card">
+                    <h4>复制粘贴</h4>
+                    <p>直接从其他地方复制§符号：<code>§</code> <button class="copy-btn" onclick="copyCode('§')">复制§符号</button></p>
+                </div>
+            </div>
+            
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 重要提示</h4>
+                <p>在基岩版中，§符号只能在特定地方使用，如告示牌、书名、物品名称等。聊天框中通常无法使用§符号，除非有权限。</p>
+            </div>
+            
+            <h2 id="颜色代码">颜色代码</h2>
+            <p>§符号后跟数字或字母可以改变文本颜色：</p>
+            
+            <div class="color-grid">
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #000000; color: white;">§0 黑色</div>
+                    <p><code>§0</code> - 黑色 (black)</p>
+                    <button class="copy-btn" onclick="copyCode('§0')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #0000AA; color: white;">§1 深蓝色</div>
+                    <p><code>§1</code> - 深蓝色 (dark_blue)</p>
+                    <button class="copy-btn" onclick="copyCode('§1')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #00AA00; color: white;">§2 深绿色</div>
+                    <p><code>§2</code> - 深绿色 (dark_green)</p>
+                    <button class="copy-btn" onclick="copyCode('§2')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #00AAAA; color: white;">§3 湖蓝色</div>
+                    <p><code>§3</code> - 湖蓝色 (dark_aqua)</p>
+                    <button class="copy-btn" onclick="copyCode('§3')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #AA0000; color: white;">§4 深红色</div>
+                    <p><code>§4</code> - 深红色 (dark_red)</p>
+                    <button class="copy-btn" onclick="copyCode('§4')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #AA00AA; color: white;">§5 紫色</div>
+                    <p><code>§5</code> - 紫色 (dark_purple)</p>
+                    <button class="copy-btn" onclick="copyCode('§5')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #FFAA00; color: black;">§6 金色</div>
+                    <p><code>§6</code> - 金色 (gold)</p>
+                    <button class="copy-btn" onclick="copyCode('§6')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #AAAAAA; color: black;">§7 灰色</div>
+                    <p><code>§7</code> - 灰色 (gray)</p>
+                    <button class="copy-btn" onclick="copyCode('§7')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #555555; color: white;">§8 深灰色</div>
+                    <p><code>§8</code> - 深灰色 (dark_gray)</p>
+                    <button class="copy-btn" onclick="copyCode('§8')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #5555FF; color: white;">§9 蓝色</div>
+                    <p><code>§9</code> - 蓝色 (blue)</p>
+                    <button class="copy-btn" onclick="copyCode('§9')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #55FF55; color: black;">§a 绿色</div>
+                    <p><code>§a</code> - 绿色 (green)</p>
+                    <button class="copy-btn" onclick="copyCode('§a')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #55FFFF; color: black;">§b 天蓝色</div>
+                    <p><code>§b</code> - 天蓝色 (aqua)</p>
+                    <button class="copy-btn" onclick="copyCode('§b')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #FF5555; color: black;">§c 红色</div>
+                    <p><code>§c</code> - 红色 (red)</p>
+                    <button class="copy-btn" onclick="copyCode('§c')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #FF55FF; color: black;">§d 粉红色</div>
+                    <p><code>§d</code> - 粉红色 (light_purple)</p>
+                    <button class="copy-btn" onclick="copyCode('§d')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #FFFF55; color: black;">§e 黄色</div>
+                    <p><code>§e</code> - 黄色 (yellow)</p>
+                    <button class="copy-btn" onclick="copyCode('§e')">复制代码</button>
+                </div>
+                
+                <div class="color-card">
+                    <div class="color-preview" style="background-color: #FFFFFF; color: black;">§f 白色</div>
+                    <p><code>§f</code> - 白色 (white)</p>
+                    <button class="copy-btn" onclick="copyCode('§f')">复制代码</button>
+                </div>
+            </div>
+            
+            <h2 id="格式代码">格式代码</h2>
+            <p>除了颜色代码，§符号还可以用于文本格式：</p>
+            
+            <div class="format-grid">
+                <div class="format-card">
+                    <h4>§l - 粗体</h4>
+                    <p class="mc-text" style="font-weight: bold;">§l粗体文本</p>
+                    <p><code>§l文本</code></p>
+                    <button class="copy-btn" onclick="copyCode('§l')">复制代码</button>
+                </div>
+                
+                <div class="format-card">
+                    <h4>§o - 斜体</h4>
+                    <p class="mc-text" style="font-style: italic;">§o斜体文本</p>
+                    <p><code>§o文本</code></p>
+                    <button class="copy-btn" onclick="copyCode('§o')">复制代码</button>
+                </div>
+                
+                <div class="format-card">
+                    <h4>§n - 下划线</h4>
+                    <p class="mc-text" style="text-decoration: underline;">§n下划线文本</p>
+                    <p><code>§n文本</code></p>
+                    <button class="copy-btn" onclick="copyCode('§n')">复制代码</button>
+                </div>
+                
+                <div class="format-card">
+                    <h4>§m - 删除线</h4>
+                    <p class="mc-text" style="text-decoration: line-through;">§m删除线文本</p>
+                    <p><code>§m文本</code></p>
+                    <button class="copy-btn" onclick="copyCode('§m')">复制代码</button>
+                </div>
+                
+                <div class="format-card">
+                    <h4>§k - 随机字符</h4>
+                    <p class="mc-text">§k随机字符</p>
+                    <p><code>§k文本</code></p>
+                    <button class="copy-btn" onclick="copyCode('§k')">复制代码</button>
+                </div>
+                
+                <div class="format-card">
+                    <h4>§r - 重置格式</h4>
+                    <p class="mc-text">§r重置所有格式</p>
+                    <p><code>§r文本</code></p>
+                    <button class="copy-btn" onclick="copyCode('§r')">复制代码</button>
+                </div>
+            </div>
+            
+            <h2 id="使用示例">使用示例</h2>
+            <p>以下是在基岩版中使用§符号的示例：</p>
+            
+            <div class="example">
+                <h4>告示牌</h4>
+                <pre><code>§6========
+§b欢迎来到
+§a我的服务器
+§6========</code></pre>
+                <button class="copy-btn" onclick="copyCode('§6========\n§b欢迎来到\n§a我的服务器\n§6========')">复制代码</button>
+            </div>
+            
+            <div class="example">
+                <h4>物品名称</h4>
+                <pre><code>/give @p diamond_sword{display:{Name:'{"text":"§c§l传奇之剑§r", "italic":false}'}} 1</code></pre>
+                <button class="copy-btn" onclick="copyCode('/give @p diamond_sword{display:{Name:\'{"text":"§c§l传奇之剑§r", "italic":false}\'}} 1')">复制代码</button>
+            </div>
+            
+            <div class="example">
+                <h4>书名</h4>
+                <pre><code>/give @p written_book{pages:['{"text":"§l§n欢迎指南§r\\n§o作者: 秋葵§r"}'],title:"指南",author:"秋葵"} 1</code></pre>
+                <button class="copy-btn" onclick="copyCode('/give @p written_book{pages:[\'{"text":"§l§n欢迎指南§r\\\\n§o作者: 秋葵§r"}\'],title:"指南",author:"秋葵"} 1')">复制代码</button>
+            </div>
+            
+            <h2 id="注意事项">注意事项</h2>
+            
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 基岩版限制</h4>
+                <p>1. 在基岩版中，§符号的使用受到更多限制，通常需要作弊权限或特定上下文</p>
+                <p>2. 聊天框中普通玩家无法使用§符号，只有OP或特定权限的玩家可以使用</p>
+                <p>3. 某些格式代码（如§k随机字符）在基岩版中可能表现与Java版不同</p>
+            </div>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>JSON文本替代方案</span>
+                </div>
+                <p>在命令中，可以使用JSON文本代替§符号：</p>
+                <pre><code>{"text":"欢迎信息", "color":"red", "bold":true}</code></pre>
+                <p>代替：<code>§c§l欢迎信息</code></p>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 右侧目录导航 -->
+    <div class="on-this-page">
+        <h3>本页导航</h3>
+        <ul class="on-this-page-nav">
+            <li><a href="#介绍">§符号概述</a></li>
+            <li><a href="#输入方法">输入方法</a></li>
+            <li><a href="#颜色代码">颜色代码</a></li>
+            <li><a href="#格式代码">格式代码</a></li>
+            <li><a href="#使用示例">使用示例</a></li>
+            <li><a href="#注意事项">注意事项</a></li>
+        </ul>
+    </div>
+    
+    <!-- 移动端菜单切换按钮 -->
+    <div class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <script>
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+            });
+        }
+        
+        // 点击主内容区域关闭侧边栏（移动端）
+        document.querySelector('.main-content').addEventListener('click', () => {
+            if (window.innerWidth < 992) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // 搜索框功能
+        const searchInput = document.querySelector('.search-box input');
+        
+        if (searchInput) {
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'k') {
+                    e.preventDefault();
+                    searchInput.focus();
+                }
+            });
+        }
+        
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // 如果是移动端，关闭侧边栏
+                    if (window.innerWidth < 992) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
+        });
+        
+        // 复制代码功能
+        function copyCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                alert(`已复制: ${code}`);
+            }).catch(err => {
+                console.error('无法复制文本: ', err);
+                prompt('请手动复制以下代码:', code);
+            });
+        }
+    </script>
+</body>
+</html>

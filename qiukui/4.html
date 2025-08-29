@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秋葵指令 - 文档</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #7a6ff0;
+            --accent: #fd79a8;
+            --light: #f8f9fa;
+            --dark: #2d3436;
+            --sidebar-width: 280px;
+            --radius: 8px;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9fafb;
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* 侧边栏样式 */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid #eaeaea;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+        
+        .sidebar-section h3 {
+            font-size: 1rem;
+            color: #636e72;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .sidebar-nav {
+            list-style: none;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 8px;
+        }
+        
+        .sidebar-nav a {
+            display: block;
+            text-decoration: none;
+            color: #4a5568;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+        
+        .sidebar-nav a:hover {
+            background-color: #f1f3f9;
+            color: var(--primary);
+        }
+        
+        .sidebar-nav a.active {
+            background-color: #f1f3f9;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .divider {
+            height: 1px;
+            background: #eaeaea;
+            margin: 20px 0;
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            background: #f8fafc;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        
+        .search-hint {
+            font-size: 0.75rem;
+            color: #a0aec0;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        /* 主内容区域样式 */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 40px;
+            max-width: 800px;
+        }
+        
+        .content-section {
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        .content-section h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-weight: 700;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .content-section h2 {
+            font-size: 1.6rem;
+            margin: 35px 0 20px;
+            color: var(--dark);
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f1f2f6;
+        }
+        
+        .content-section h3 {
+            font-size: 1.3rem;
+            margin: 30px 0 15px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .content-section p {
+            margin-bottom: 20px;
+            color: #4a5568;
+        }
+        
+        .alert {
+            padding: 20px;
+            background: #fff9e6;
+            border-left: 4px solid #ffce54;
+            border-radius: 4px;
+            margin: 25px 0;
+        }
+        
+        .alert h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: #e6b01e;
+            font-weight: 600;
+        }
+        
+        .alert-icon {
+            color: #e6b01e;
+            font-size: 1.2rem;
+        }
+        
+        /* 目录导航 */
+        .on-this-page {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 220px;
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+        
+        .on-this-page h3 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .on-this-page-nav {
+            list-style: none;
+        }
+        
+        .on-this-page-nav li {
+            margin-bottom: 10px;
+        }
+        
+        .on-this-page-nav a {
+            display: block;
+            text-decoration: none;
+            color: #4a5568;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+            padding: 4px 0;
+        }
+        
+        .on-this-page-nav a:hover {
+            color: var(--primary);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .on-this-page {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 30px 20px;
+            }
+            
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1100;
+                background: var(--primary);
+                color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: var(--shadow);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .content-section {
+                padding: 20px;
+            }
+            
+            .content-section h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* 内容样式增强 */
+        .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+        
+        .note {
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .note-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 8px;
+        }
+
+        /* 代码样式 */
+        code {
+            background-color: #f1f3f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        pre code {
+            display: block;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>qiukui Command</span>
+        </div>
+        
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="搜索文档">
+            <div class="search-hint">Ctrl+K</div>
+        </div>
+        
+        <div class="sidebar-section">
+            <h3>最常用的指令</h3>
+            <ul class="sidebar-nav">
+                <li><a href="1.html">介绍</a></li>
+                <li><a href="2.html">基础 - tp指令</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>稍微少用一点的指令</h3>
+            <ul class="sidebar-nav">
+                <li><a href="3.html">基础 - 游戏模式</a></li>
+                <li><a href="4.html" class="active">进阶 - tag标签</a></li>
+                <li><a href="5.html">进阶 - 距离（r）</a></li>
+                <li><a href="6.html">基础 - give指令</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>综合</h3>
+            <ul class="sidebar-nav">
+                <li><a href="7.html">§符号</a></li>
+                <li><a href="8.html">邮箱</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>本页导航</h3>
+            <ul class="sidebar-nav">
+                <li><a href="#介绍">tag指令概述</a></li>
+                <li><a href="#基本语法">基本语法</a></li>
+                <li><a href="#添加标签">添加标签</a></li>
+                <li><a href="#移除标签">移除标签</a></li>
+                <li><a href="#列出标签">列出标签</a></li>
+                <li><a href="#实际应用">实际应用</a></li>
+            </ul>
+        </div>
+    </aside>
+    
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <div class="content-section">
+            <h1>进阶 - tag标签</h1>
+            
+            <h2 id="介绍">tag指令概述</h2>
+            <p>tag指令是Minecraft基岩版中用于给实体（玩家、生物等）添加、移除或列出标签的强大工具。标签可以帮助你分类和管理实体，实现更复杂的指令系统。</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>标签的作用</span>
+                </div>
+                <p>标签可以用于：选择特定实体、标记特殊状态的实体、创建实体分组、实现条件判断等。</p>
+            </div>
+            
+            <h2 id="基本语法">基本语法</h2>
+            <p>tag指令的基本格式：</p>
+            <pre><code>/tag &lt;目标实体&gt; add &lt;标签名称&gt;
+/tag &lt;目标实体&gt; remove &lt;标签名称&gt;
+/tag &lt;目标实体&gt; list</code></pre>
+            
+            <h2 id="添加标签">添加标签</h2>
+            <p>使用<code>add</code>参数给实体添加标签：</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>示例</span>
+                </div>
+                <p><code>/tag @p add vip</code> - 给最近的玩家添加"vip"标签</p>
+                <p><code>/tag @e[type=cow] add farm_animal</code> - 给所有牛添加"farm_animal"标签</p>
+                <p><code>/tag @a add team_red</code> - 给所有玩家添加"team_red"标签</p>
+            </div>
+            
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 重要提示</h4>
+                <p>标签名称不能包含空格，可以使用下划线(_)或连字符(-)代替。标签名称区分大小写。</p>
+            </div>
+            
+            <h2 id="移除标签">移除标签</h2>
+            <p>使用<code>remove</code>参数移除实体上的标签：</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>示例</span>
+                </div>
+                <p><code>/tag @p remove vip</code> - 移除最近玩家的"vip"标签</p>
+                <p><code>/tag @e[tag=farm_animal] remove farm_animal</code> - 移除所有有"farm_animal"标签实体的该标签</p>
+            </div>
+            
+            <h2 id="列出标签">列出标签</h2>
+            <p>使用<code>list</code>参数查看实体上的所有标签：</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>示例</span>
+                </div>
+                <p><code>/tag @p list</code> - 列出最近玩家的所有标签</p>
+                <p><code>/tag @e[type=zombie] list</code> - 列出所有僵尸的标签</p>
+            </div>
+            
+            <h2 id="实际应用">实际应用示例</h2>
+            
+            <h3>1. 团队系统</h3>
+            <pre><code># 给玩家分配队伍
+/tag @a[tag=!team_red,tag=!team_blue] add team_red
+/tag @a[tag=!team_red,tag=!team_blue] add team_blue
+
+# 给不同队伍不同效果
+/effect @a[tag=team_red] resistance 10 1
+/effect @a[tag=team_blue] speed 10 1</code></pre>
+            
+            <h3>2. 特殊状态标记</h3>
+            <pre><code># 标记已经获得奖励的玩家
+/tag @p add got_reward
+
+# 检查玩家是否已经获得奖励
+/execute @a[tag=!got_reward] ~~~ give @s diamond 1
+/execute @a[tag=!got_reward] ~~~ tag @s add got_reward</code></pre>
+            
+            <h3>3. 实体分类</h3>
+            <pre><code># 标记所有农场动物
+/tag @e[type=cow] add farm_animal
+/tag @e[type=pig] add farm_animal
+/tag @e[type=chicken] add farm_animal
+
+# 传送所有农场动物到指定位置
+/tp @e[tag=farm_animal] 100 70 100</code></pre>
+            
+            <h3>4. 结合选择器使用</h3>
+            <p>标签可以与选择器结合使用，实现精确的实体选择：</p>
+            <pre><code># 选择有vip标签的玩家
+@a[tag=vip]
+
+# 选择没有vip标签的玩家
+@a[tag=!vip]
+
+# 选择同时有vip和admin标签的玩家
+@a[tag=vip,tag=admin]</code></pre>
+
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 注意事项</h4>
+                <p>1. 标签在实体被卸载或世界重新加载后仍然存在</p>
+                <p>2. 标签不会保存在实体的NBT数据中，与scoreboard不同</p>
+                <p>3. 单个实体最多可以有1024个标签</p>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 右侧目录导航 -->
+    <div class="on-this-page">
+        <h3>本页导航</h3>
+        <ul class="on-this-page-nav">
+            <li><a href="#介绍">tag指令概述</a></li>
+            <li><a href="#基本语法">基本语法</a></li>
+            <li><a href="#添加标签">添加标签</a></li>
+            <li><a href="#移除标签">移除标签</a></li>
+            <li><a href="#列出标签">列出标签</a></li>
+            <li><a href="#实际应用">实际应用</a></li>
+        </ul>
+    </div>
+    
+    <!-- 移动端菜单切换按钮 -->
+    <div class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <script>
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // 点击主内容区域关闭侧边栏（移动端）
+        document.querySelector('.main-content').addEventListener('click', () => {
+            if (window.innerWidth < 992) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // 搜索框功能
+        const searchInput = document.querySelector('.search-box input');
+        
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+        });
+        
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // 如果是移动端，关闭侧边栏
+                    if (window.innerWidth < 992) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
