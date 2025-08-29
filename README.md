@@ -1,2 +1,2 @@
-# ksqiukui.github.io
-快手秋季
+# ksqiuji.github.io
+秋葵牛逼
