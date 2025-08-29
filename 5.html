@@ -328,6 +328,27 @@
             color: #1e40af;
             margin-bottom: 8px;
         }
+
+        /* 代码样式 */
+        code {
+            background-color: #f1f3f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        pre code {
+            display: block;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            line-height: 1.5;
+            background-color: #f8fafc;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+        }
     </style>
 </head>
 <body>
@@ -347,7 +368,7 @@
         <div class="sidebar-section">
             <h3>最常用的指令</h3>
             <ul class="sidebar-nav">
-                <li><a href="1.html" class="active">介绍</a></li>
+                <li><a href="1.html">介绍</a></li>
                 <li><a href="2.html">基础 - tp指令</a></li>
             </ul>
         </div>
@@ -359,7 +380,7 @@
             <ul class="sidebar-nav">
                 <li><a href="3.html">基础 - 游戏模式</a></li>
                 <li><a href="4.html">进阶 - tag标签</a></li>
-                <li><a href="5.html">进阶 - 距离（r）</a></li>
+                <li><a href="5.html" class="active">进阶 - 距离（r）</a></li>
                 <li><a href="6.html">基础 - give指令</a></li>
             </ul>
         </div>
@@ -379,9 +400,12 @@
         <div class="sidebar-section">
             <h3>本页导航</h3>
             <ul class="sidebar-nav">
-                <li><a href="#介绍">介绍</a></li>
-                <li><a href="#提醒">提醒</a></li>
-                <li><a href="#答疑群">答疑群</a></li>
+                <li><a href="#介绍">距离选择器概述</a></li>
+                <li><a href="#基本语法">基本语法</a></li>
+                <li><a href="#范围选择">范围选择</a></li>
+                <li><a href="#精确距离">精确距离</a></li>
+                <li><a href="#组合使用">组合使用</a></li>
+                <li><a href="#实际应用">实际应用</a></li>
             </ul>
         </div>
     </aside>
@@ -389,45 +413,130 @@
     <!-- 主内容区域 -->
     <main class="main-content">
         <div class="content-section">
-            <h1>qiukuiの指令</h1>
+            <h1>进阶 - 距离（r）选择器</h1>
             
-            <h2 id="介绍">介绍</h2>
-            <p>此网站用于MCPE(我的世界基岩版)指令</p>
+            <h2 id="介绍">距离选择器概述</h2>
+            <p>在Minecraft基岩版中，距离选择器（r参数）用于根据实体与命令执行点之间的距离来选择实体。这是制作精密指令系统和地图时非常重要的功能。</p>
             
             <div class="note">
                 <div class="note-title">
                     <i class="fas fa-lightbulb"></i>
-                    <span>学习建议</span>
+                    <span>基本概念</span>
                 </div>
-                <p>学习指令须有些许编程基础，平地起高楼肯定有些地方是听不懂的o</p>
+                <p>距离选择器使用 <code>r=值</code> 或 <code>rm=值</code> 来筛选特定距离范围内的实体，让指令只在特定区域内生效。</p>
             </div>
             
-            <h2 id="提醒">提醒</h2>
-            <p>跟着文档学习的过程中会有许多这样的提示框，如果你只看文档学习，请务必仔细查看每一个这样的提示框。</p>
+            <h2 id="基本语法">基本语法</h2>
+            <p>距离选择器的基本格式：</p>
+            <pre><code>@e[r=10]      // 选择距离10格以内的所有实体
+@e[r=5,rm=10] // 选择距离5到10格之间的所有实体
+@a[rm=15]     // 选择距离15格以外的所有玩家</code></pre>
             
             <div class="alert">
                 <h4><i class="fas fa-exclamation-circle alert-icon"></i> 重要提示</h4>
-                <p>些许指令需要命令方块运行，或手动运行，执行错误可能出现崩档等不良后果</p>
+                <p>距离是从命令执行的位置开始计算的。在命令方块中执行时，距离是从命令方块的位置计算。</p>
             </div>
             
-            <h2 id="QQ群">QQ群</h2>
-            <p>Q0群：还没有</p>
+            <h2 id="范围选择">范围选择 - r参数</h2>
+            <p>使用 <code>r=值</code> 选择指定距离内的实体：</p>
             
             <div class="note">
                 <div class="note-title">
-                    <i class="fas fa-users"></i>
-                    <span>社区支持</span>
+                    <i class="fas fa-lightbulb"></i>
+                    <span>示例</span>
                 </div>
-                <p>还没有社区666</p>
+                <p><code>@a[r=5]</code> - 选择5格范围内的所有玩家</p>
+                <p><code>@e[r=10]</code> - 选择10格范围内的所有实体</p>
+                <p><code>@e[type=cow,r=15]</code> - 选择15格范围内的所有牛</p>
             </div>
             
-            <h3>社区规则</h3>
-            <p>1. 提问前请先查阅文档和常见问题</p>
-            <p>2. 保持友善和尊重</p>
-            <p>3. 不讨论与MCPE指令学习无关的内容</p>
+            <h2 id="精确距离">精确距离 - rm参数</h2>
+            <p>使用 <code>rm=值</code> 选择指定最小距离外的实体：</p>
             
-            <h3>资源分享</h3>
-            <p>社区成员经常会分享一些有用的资源和工具，记得经常关注群内消息。（如果有的话）</p>
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>示例</span>
+                </div>
+                <p><code>@a[rm=10]</code> - 选择10格范围外的所有玩家</p>
+                <p><code>@e[rm=5]</code> - 选择5格范围外的所有实体</p>
+            </div>
+            
+            <h2 id="组合使用">组合使用r和rm参数</h2>
+            <p>可以同时使用 <code>r</code> 和 <code>rm</code> 参数来选择一个距离范围：</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>示例</span>
+                </div>
+                <p><code>@a[r=10,rm=5]</code> - 选择5到10格范围内的玩家</p>
+                <p><code>@e[type=zombie,r=15,rm=8]</code> - 选择8到15格范围内的僵尸</p>
+                <p><code>@e[r=20,rm=10]</code> - 选择10到20格范围内的所有实体</p>
+            </div>
+            
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 注意</h4>
+                <p>在使用范围选择时，<code>rm</code> 值必须小于 <code>r</code> 值，否则将无法选择到任何实体。</p>
+            </div>
+            
+            <h2 id="实际应用">实际应用示例</h2>
+            
+            <h3>1. 区域效果应用</h3>
+            <pre><code># 给5格范围内的玩家速度效果
+/effect @a[r=5] speed 30 1
+
+# 给10-20格范围内的玩家挖掘疲劳
+/effect @a[r=20,rm=10] mining_fatigue 30 1</code></pre>
+            
+            <h3>2. 区域传送</h3>
+            <pre><code># 将15格范围内的玩家传送到指定位置
+/tp @a[r=15] 100 64 100
+
+# 将5-10格范围内的实体传送到上空
+/tp @e[r=10,rm=5] ~ ~5 ~</code></pre>
+            
+            <h3>3. 区域检测与触发</h3>
+            <pre><code># 检测是否有玩家进入10格范围内
+/execute @a[r=10] ~~~ say 有玩家靠近！
+
+# 当玩家进入5格范围内时给予物品
+/execute @a[r=5] ~~~ give @s diamond 1
+
+# 清除15格范围内的物品
+/kill @e[type=item,r=15]</code></pre>
+            
+            <h3>4. 结合其他选择器参数</h3>
+            <p>距离选择器可以与其他选择器参数组合使用：</p>
+            <pre><code># 选择10格范围内有"vip"标签的玩家
+@a[tag=vip,r=10]
+
+# 选择5-15格范围内的牛，并排除有"farm"标签的
+@e[type=cow,r=15,rm=5,tag=!farm]
+
+# 选择20格范围内随机一个玩家
+@r[r=20]</code></pre>
+
+            <h3>5. 高级区域系统</h3>
+            <pre><code># 多层区域检测系统
+/execute @a[r=5] ~~~ tag @s add in_core_area
+/execute @a[r=15,rm=5] ~~~ tag @s add in_mid_area
+/execute @a[rm=15] ~~~ tag @s add in_outer_area
+
+# 根据不同区域给予不同效果
+/effect @a[tag=in_core_area] regeneration 10 1
+/effect @a[tag=in_mid_area] jump_boost 10 1
+/effect @a[tag=in_outer_area] slow_falling 10 1
+
+# 清除区域标签
+/tag @a remove in_core_area
+/tag @a remove in_mid_area
+/tag @a remove in_outer_area</code></pre>
+
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 性能优化提示</h4>
+                <p>在使用距离选择器时，尽量缩小选择范围以提高游戏性能。特别是在高频命令方块中，避免使用过大范围的 <code>@e</code> 选择器。</p>
+            </div>
         </div>
     </main>
     
@@ -435,11 +544,12 @@
     <div class="on-this-page">
         <h3>本页导航</h3>
         <ul class="on-this-page-nav">
-            <li><a href="#介绍">介绍</a></li>
-            <li><a href="#提醒">提醒</a></li>
-            <li><a href="#QQ群">QQ群</a></li>
-            <li><a href="#社区规则">社区规则</a></li>
-            <li><a href="#资源分享">资源分享</a></li>
+            <li><a href="#介绍">距离选择器概述</a></li>
+            <li><a href="#基本语法">基本语法</a></li>
+            <li><a href="#范围选择">范围选择</a></li>
+            <li><a href="#精确距离">精确距离</a></li>
+            <li><a href="#组合使用">组合使用</a></li>
+            <li><a href="#实际应用">实际应用</a></li>
         </ul>
     </div>
     

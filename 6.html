@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秋葵指令 - 文档</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #7a6ff0;
+            --accent: #fd79a8;
+            --light: #f8f9fa;
+            --dark: #2d3436;
+            --sidebar-width: 280px;
+            --radius: 8px;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9fafb;
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* 侧边栏样式 */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid #eaeaea;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+        
+        .sidebar-section h3 {
+            font-size: 1rem;
+            color: #636e72;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .sidebar-nav {
+            list-style: none;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 8px;
+        }
+        
+        .sidebar-nav a {
+            display: block;
+            text-decoration: none;
+            color: #4a5568;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+        
+        .sidebar-nav a:hover {
+            background-color: #f1f3f9;
+            color: var(--primary);
+        }
+        
+        .sidebar-nav a.active {
+            background-color: #f1f3f9;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .divider {
+            height: 1px;
+            background: #eaeaea;
+            margin: 20px 0;
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            background: #f8fafc;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        
+        .search-hint {
+            font-size: 0.75rem;
+            color: #a0aec0;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        /* 主内容区域样式 */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 40px;
+            max-width: 800px;
+        }
+        
+        .content-section {
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        .content-section h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-weight: 700;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .content-section h2 {
+            font-size: 1.6rem;
+            margin: 35px 0 20px;
+            color: var(--dark);
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f1f2f6;
+        }
+        
+        .content-section h3 {
+            font-size: 1.3rem;
+            margin: 30px 0 15px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .content-section p {
+            margin-bottom: 20px;
+            color: #4a5568;
+        }
+        
+        .alert {
+            padding: 20px;
+            background: #fff9e6;
+            border-left: 4px solid #ffce54;
+            border-radius: 4px;
+            margin: 25px 0;
+        }
+        
+        .alert h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: #e6b01e;
+            font-weight: 600;
+        }
+        
+        .alert-icon {
+            color: #e6b01e;
+            font-size: 1.2rem;
+        }
+        
+        /* 目录导航 */
+        .on-this-page {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 220px;
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+        
+        .on-this-page h3 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .on-this-page-nav {
+            list-style: none;
+        }
+        
+        .on-this-page-nav li {
+            margin-bottom: 10px;
+        }
+        
+        .on-this-page-nav a {
+            display: block;
+            text-decoration: none;
+            color: #4a5568;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+            padding: 4px 0;
+        }
+        
+        .on-this-page-nav a:hover {
+            color: var(--primary);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .on-this-page {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 30px 20px;
+            }
+            
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1100;
+                background: var(--primary);
+                color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: var(--shadow);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .content-section {
+                padding: 20px;
+            }
+            
+            .content-section h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* 内容样式增强 */
+        .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+        
+        .note {
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .note-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 8px;
+        }
+
+        /* 代码样式 */
+        code {
+            background-color: #f1f3f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        pre code {
+            display: block;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            line-height: 1.5;
+            background-color: #2d3436;
+            color: #f8f9fa;
+            border-radius: var(--radius);
+        }
+        
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .item-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .item-card h4 {
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>qiukui Command</span>
+        </div>
+        
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="搜索文档">
+            <div class="search-hint">Ctrl+K</div>
+        </div>
+        
+        <div class="sidebar-section">
+            <h3>最常用的指令</h3>
+            <ul class="sidebar-nav">
+                <li><a href="1.html">介绍</a></li>
+                <li><a href="2.html">基础 - tp指令</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>稍微少用一点的指令</h3>
+            <ul class="sidebar-nav">
+                <li><a href="3.html">基础 - 游戏模式</a></li>
+                <li><a href="4.html">进阶 - tag标签</a></li>
+                <li><a href="5.html">进阶 - 距离（r）</a></li>
+                <li><a href="6.html" class="active">基础 - give指令</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>综合</h3>
+            <ul class="sidebar-nav">
+                <li><a href="7.html">§符号</a></li>
+                <li><a href="8.html">邮箱</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>本页导航</h3>
+            <ul class="sidebar-nav">
+                <li><a href="#介绍">give指令概述</a></li>
+                <li><a href="#基本语法">基本语法</a></li>
+                <li><a href="#常用物品">常用物品指令</a></li>
+                <li><a href="#隐藏方块">隐藏方块获取</a></li>
+                <li><a href="#数据标签">数据标签使用</a></li>
+                <li><a href="#实际应用">实际应用</a></li>
+            </ul>
+        </div>
+    </aside>
+    
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <div class="content-section">
+            <h1>基础 - give指令</h1>
+            
+            <h2 id="介绍">give指令概述</h2>
+            <p>give指令是Minecraft中用于给玩家物品的指令。通过give指令，你可以获取游戏中的任何物品，包括正常情况下无法获得的隐藏方块和物品。</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>基本语法</span>
+                </div>
+                <p>give指令的基本格式：<code>/give &lt;玩家&gt; &lt;物品&gt; [数量] [数据值] [组件]</code></p>
+            </div>
+            
+            <h2 id="基本语法">基本语法详解</h2>
+            
+            <h3>参数说明</h3>
+            <div class="item-grid">
+                <div class="item-card">
+                    <h4>玩家</h4>
+                    <p>目标玩家，可以使用选择器：<br><code>@p</code>, <code>@a</code>, <code>@r</code>, <code>@e</code></p>
+                </div>
+                <div class="item-card">
+                    <h4>物品</h4>
+                    <p>物品ID或命名空间ID<br>例如：<code>diamond</code>, <code>minecraft:diamond</code></p>
+                </div>
+                <div class="item-card">
+                    <h4>数量</h4>
+                    <p>物品数量（可选）<br>默认值：1<br>范围：1-64（堆叠物品）</p>
+                </div>
+                <div class="item-card">
+                    <h4>数据值</h4>
+                    <p>物品数据值（可选）<br>用于区分物品变种<br>例如：羊毛颜色</p>
+                </div>
+            </div>
+            
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 重要提示</h4>
+                <p>在基岩版中，give指令的语法与Java版有所不同，主要使用命名空间ID而不是数字ID。</p>
+            </div>
+            
+            <h2 id="常用物品">常用物品指令示例</h2>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>基础物品</span>
+                </div>
+                <pre><code>/give @p diamond 64          # 给予64个钻石
+/give @a iron_ingot 32     # 给所有玩家32个铁锭
+/give @p apple 5           # 给予5个苹果</code></pre>
+            </div>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>带有数据值的物品</span>
+                </div>
+                <pre><code>/give @p wool 64 0          # 白色羊毛
+/give @p wool 64 1          # 橙色羊毛
+/give @p wool 64 2          # 品红色羊毛
+/give @p wool 64 14         # 红色羊毛</code></pre>
+            </div>
+            
+            <h2 id="隐藏方块">隐藏方块获取指令</h2>
+            <p>以下是一些在创造模式物品栏中无法直接获取的隐藏方块和物品：</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>命令方块系列</span>
+                </div>
+                <pre><code>/give @p command_block          # 普通命令方块
+/give @p chain_command_block   # 连锁命令方块
+/give @p repeating_command_block  # 循环命令方块</code></pre>
+            </div>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>结构方块系列</span>
+                </div>
+                <pre><code>/give @p structure_block        # 结构方块
+/give @p structure_void        # 结构空位
+/give @p jigsaw                # 拼图方块</code></pre>
+            </div>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>屏障和光源方块</span>
+                </div>
+                <pre><code>/give @p barrier                # 屏障方块（隐形）
+/give @p light_block           # 光源方块
+/give @p light_block 1 15      # 亮度15的光源方块</code></pre>
+            </div>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>边界和允许/拒绝方块</span>
+                </div>
+                <pre><code>/give @p border_block           # 边界方块
+/give @p allow                 # 允许方块
+/give @p deny                  # 拒绝方块</code></pre>
+            </div>
+            
+            <h2 id="数据标签">使用数据标签（Components）</h2>
+            <p>基岩版1.16.100+支持使用组件来修改物品属性：</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>附魔物品</span>
+                </div>
+                <pre><code>/give @p diamond_sword 1 0 {"minecraft:enchantments": {"sharpness": 5}}</code></pre>
+            </div>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>命名物品</span>
+                </div>
+                <pre><code>/give @p diamond 1 0 {"minecraft:item_name": "超级钻石"}</code></pre>
+            </div>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>自定义 lore</span>
+                </div>
+                <pre><code>/give @p diamond_sword 1 0 {"minecraft:lore": ["传说中的武器", "非常强大"]}</code></pre>
+            </div>
+            
+            <h2 id="实际应用">实际应用示例</h2>
+            
+            <h3>1. 批量给予物品</h3>
+            <pre><code># 给所有玩家一套钻石装备
+/give @a diamond_sword 1
+/give @a diamond_chestplate 1
+/give @a diamond_leggings 1
+/give @a diamond_boots 1
+/give @a diamond_helmet 1</code></pre>
+            
+            <h3>2. 创建自定义物品</h3>
+            <pre><code># 创建一把有特殊名称和附魔的剑<§符号>在后续会讲
+/give @p diamond_sword 1 0 {"minecraft:item_name": "§l§4秋葵牛逼", "minecraft:enchantments": {"sharpness": 5, "unbreaking": 3}}</code></pre>
+            
+            <h3>3. 获取调试棒</h3>
+            <pre><code>/give @p debug_stick  # 调试棒（仅限Java版）</code></pre>
+            
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 注意事项</h4>
+                <p>1. 某些隐藏方块需要开启实验性玩法才能正常使用</p>
+                <p>2. 在生存模式下使用give指令需要作弊权限</p>
+                <p>3. 数据标签语法在较旧的基岩版中可能不适用</p>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 右侧目录导航 -->
+    <div class="on-this-page">
+        <h3>本页导航</h3>
+        <ul class="on-this-page-nav">
+            <li><a href="#介绍">give指令概述</a></li>
+            <li><a href="#基本语法">基本语法</a></li>
+            <li><a href="#常用物品">常用物品指令</a></li>
+            <li><a href="#隐藏方块">隐藏方块获取</a></li>
+            <li><a href="#数据标签">数据标签使用</a></li>
+            <li><a href="#实际应用">实际应用</a></li>
+        </ul>
+    </div>
+    
+    <!-- 移动端菜单切换按钮 -->
+    <div class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <script>
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // 点击主内容区域关闭侧边栏（移动端）
+        document.querySelector('.main-content').addEventListener('click', () => {
+            if (window.innerWidth < 992) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // 搜索框功能
+        const searchInput = document.querySelector('.search-box input');
+        
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+        });
+        
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // 如果是移动端，关闭侧边栏
+                    if (window.innerWidth < 992) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秋葵指令 - 文档</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #7a6ff0;
+            --accent: #fd79a8;
+            --light: #f8f9fa;
+            --dark: #2d3436;
+            --sidebar-width: 280px;
+            --radius: 8px;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9fafb;
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* 侧边栏样式 */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid #eaeaea;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 25px;
+        }
+        
+        .sidebar-section h3 {
+            font-size: 1rem;
+            color: #636e72;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .sidebar-nav {
+            list-style: none;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 8px;
+        }
+        
+        .sidebar-nav a {
+            display: block;
+            text-decoration: none;
+            color: #4a5568;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+        
+        .sidebar-nav a:hover {
+            background-color: #f1f3f9;
+            color: var(--primary);
+        }
+        
+        .sidebar-nav a.active {
+            background-color: #f1f3f9;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .divider {
+            height: 1px;
+            background: #eaeaea;
+            margin: 20px 0;
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            background: #f8fafc;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+        
+        .search-hint {
+            font-size: 0.75rem;
+            color: #a0aec0;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        /* 主内容区域样式 */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 40px;
+            max-width: 800px;
+        }
+        
+        .content-section {
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+        
+        .content-section h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-weight: 700;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .content-section h2 {
+            font-size: 1.6rem;
+            margin: 35px 0 20px;
+            color: var(--dark);
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f1f2f6;
+        }
+        
+        .content-section h3 {
+            font-size: 1.3rem;
+            margin: 30px 0 15px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .content-section p {
+            margin-bottom: 20px;
+            color: #4a5568;
+        }
+        
+        .alert {
+            padding: 20px;
+            background: #fff9e6;
+            border-left: 4px solid #ffce54;
+            border-radius: 4px;
+            margin: 25px 0;
+        }
+        
+        .alert h4 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: #e6b01e;
+            font-weight: 600;
+        }
+        
+        .alert-icon {
+            color: #e6b01e;
+            font-size: 1.2rem;
+        }
+        
+        /* 目录导航 */
+        .on-this-page {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 220px;
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+        }
+        
+        .on-this-page h3 {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 600;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .on-this-page-nav {
+            list-style: none;
+        }
+        
+        .on-this-page-nav li {
+            margin-bottom: 10px;
+        }
+        
+        .on-this-page-nav a {
+            display: block;
+            text-decoration: none;
+            color: #4a5568;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+            padding: 4px 0;
+        }
+        
+        .on-this-page-nav a:hover {
+            color: var(--primary);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .on-this-page {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 30px 20px;
+            }
+            
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 1100;
+                background: var(--primary);
+                color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: var(--shadow);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .content-section {
+                padding: 20px;
+            }
+            
+            .content-section h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* 内容样式增强 */
+        .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+        
+        .note {
+            background-color: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .note-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 8px;
+        }
+
+        /* 代码样式 */
+        code {
+            background-color: #f1f3f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        pre code {
+            display: block;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            line-height: 1.5;
+            background-color: #2d3436;
+            color: #f8f9fa;
+            border-radius: var(--radius);
+        }
+        
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .item-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .item-card h4 {
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>qiukui Command</span>
+        </div>
+        
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="搜索文档">
+            <div class="search-hint">Ctrl+K</div>
+        </div>
+        
+        <div class="sidebar-section">
+            <h3>最常用的指令</h3>
+            <ul class="sidebar-nav">
+                <li><a href="1.html">介绍</a></li>
+                <li><a href="2.html">基础 - tp指令</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>稍微少用一点的指令</h3>
+            <ul class="sidebar-nav">
+                <li><a href="3.html">基础 - 游戏模式</a></li>
+                <li><a href="4.html">进阶 - tag标签</a></li>
+                <li><a href="5.html">进阶 - 距离（r）</a></li>
+                <li><a href="6.html" class="active">基础 - give指令</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>综合</h3>
+            <ul class="sidebar-nav">
+                <li><a href="7.html">§符号</a></li>
+                <li><a href="8.html">邮箱</a></li>
+            </ul>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <div class="sidebar-section">
+            <h3>本页导航</h3>
+            <ul class="sidebar-nav">
+                <li><a href="#介绍">give指令概述</a></li>
+                <li><a href="#基本语法">基本语法</a></li>
+                <li><a href="#常用物品">常用物品指令</a></li>
+                <li><a href="#隐藏方块">隐藏方块获取</a></li>
+                <li><a href="#数据标签">数据标签使用</a></li>
+                <li><a href="#实际应用">实际应用</a></li>
+            </ul>
+        </div>
+    </aside>
+    
+    <!-- 主内容区域 -->
+    <main class="main-content">
+        <div class="content-section">
+            <h1>基础 - give指令</h1>
+            
+            <h2 id="介绍">give指令概述</h2>
+            <p>give指令是Minecraft中用于给玩家物品的指令。通过give指令，你可以获取游戏中的任何物品，包括正常情况下无法获得的隐藏方块和物品。</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>基本语法</span>
+                </div>
+                <p>give指令的基本格式：<code>/give &lt;玩家&gt; &lt;物品&gt; [数量] [数据值] [组件]</code></p>
+            </div>
+            
+            <h2 id="基本语法">基本语法详解</h2>
+            
+            <h3>参数说明</h3>
+            <div class="item-grid">
+                <div class="item-card">
+                    <h4>玩家</h4>
+                    <p>目标玩家，可以使用选择器：<br><code>@p</code>, <code>@a</code>, <code>@r</code>, <code>@e</code></p>
+                </div>
+                <div class="item-card">
+                    <h4>物品</h4>
+                    <p>物品ID或命名空间ID<br>例如：<code>diamond</code>, <code>minecraft:diamond</code></p>
+                </div>
+                <div class="item-card">
+                    <h4>数量</h4>
+                    <p>物品数量（可选）<br>默认值：1<br>范围：1-64（堆叠物品）</p>
+                </div>
+                <div class="item-card">
+                    <h4>数据值</h4>
+                    <p>物品数据值（可选）<br>用于区分物品变种<br>例如：羊毛颜色</p>
+                </div>
+            </div>
+            
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 重要提示</h4>
+                <p>在基岩版中，give指令的语法与Java版有所不同，主要使用命名空间ID而不是数字ID。</p>
+            </div>
+            
+            <h2 id="常用物品">常用物品指令示例</h2>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>基础物品</span>
+                </div>
+                <pre><code>/give @p diamond 64          # 给予64个钻石
+/give @a iron_ingot 32     # 给所有玩家32个铁锭
+/give @p apple 5           # 给予5个苹果</code></pre>
+            </div>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>带有数据值的物品</span>
+                </div>
+                <pre><code>/give @p wool 64 0          # 白色羊毛
+/give @p wool 64 1          # 橙色羊毛
+/give @p wool 64 2          # 品红色羊毛
+/give @p wool 64 14         # 红色羊毛</code></pre>
+            </div>
+            
+            <h2 id="隐藏方块">隐藏方块获取指令</h2>
+            <p>以下是一些在创造模式物品栏中无法直接获取的隐藏方块和物品：</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>命令方块系列</span>
+                </div>
+                <pre><code>/give @p command_block          # 普通命令方块
+/give @p chain_command_block   # 连锁命令方块
+/give @p repeating_command_block  # 循环命令方块</code></pre>
+            </div>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>结构方块系列</span>
+                </div>
+                <pre><code>/give @p structure_block        # 结构方块
+/give @p structure_void        # 结构空位
+/give @p jigsaw                # 拼图方块</code></pre>
+            </div>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>屏障和光源方块</span>
+                </div>
+                <pre><code>/give @p barrier                # 屏障方块（隐形）
+/give @p light_block           # 光源方块
+/give @p light_block 1 15      # 亮度15的光源方块</code></pre>
+            </div>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>边界和允许/拒绝方块</span>
+                </div>
+                <pre><code>/give @p border_block           # 边界方块
+/give @p allow                 # 允许方块
+/give @p deny                  # 拒绝方块</code></pre>
+            </div>
+            
+            <h2 id="数据标签">使用数据标签（Components）</h2>
+            <p>基岩版1.16.100+支持使用组件来修改物品属性：</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>附魔物品</span>
+                </div>
+                <pre><code>/give @p diamond_sword 1 0 {"minecraft:enchantments": {"sharpness": 5}}</code></pre>
+            </div>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>命名物品</span>
+                </div>
+                <pre><code>/give @p diamond 1 0 {"minecraft:item_name": "超级钻石"}</code></pre>
+            </div>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>自定义 lore</span>
+                </div>
+                <pre><code>/give @p diamond_sword 1 0 {"minecraft:lore": ["传说中的武器", "非常强大"]}</code></pre>
+            </div>
+            
+            <h2 id="实际应用">实际应用示例</h2>
+            
+            <h3>1. 批量给予物品</h3>
+            <pre><code># 给所有玩家一套钻石装备
+/give @a diamond_sword 1
+/give @a diamond_chestplate 1
+/give @a diamond_leggings 1
+/give @a diamond_boots 1
+/give @a diamond_helmet 1</code></pre>
+            
+            <h3>2. 创建自定义物品</h3>
+            <pre><code># 创建一把有特殊名称和附魔的剑<§符号>在后续会讲
+/give @p diamond_sword 1 0 {"minecraft:item_name": "§l§4秋葵牛逼", "minecraft:enchantments": {"sharpness": 5, "unbreaking": 3}}</code></pre>
+            
+            <h3>3. 获取调试棒</h3>
+            <pre><code>/give @p debug_stick  # 调试棒（仅限Java版）</code></pre>
+            
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 注意事项</h4>
+                <p>1. 某些隐藏方块需要开启实验性玩法才能正常使用</p>
+                <p>2. 在生存模式下使用give指令需要作弊权限</p>
+                <p>3. 数据标签语法在较旧的基岩版中可能不适用</p>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 右侧目录导航 -->
+    <div class="on-this-page">
+        <h3>本页导航</h3>
+        <ul class="on-this-page-nav">
+            <li><a href="#介绍">give指令概述</a></li>
+            <li><a href="#基本语法">基本语法</a></li>
+            <li><a href="#常用物品">常用物品指令</a></li>
+            <li><a href="#隐藏方块">隐藏方块获取</a></li>
+            <li><a href="#数据标签">数据标签使用</a></li>
+            <li><a href="#实际应用">实际应用</a></li>
+        </ul>
+    </div>
+    
+    <!-- 移动端菜单切换按钮 -->
+    <div class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <script>
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+        
+        // 点击主内容区域关闭侧边栏（移动端）
+        document.querySelector('.main-content').addEventListener('click', () => {
+            if (window.innerWidth < 992) {
+                sidebar.classList.remove('active');
+            }
+        });
+        
+        // 搜索框功能
+        const searchInput = document.querySelector('.search-box input');
+        
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+        });
+        
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // 如果是移动端，关闭侧边栏
+                    if (window.innerWidth < 992) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

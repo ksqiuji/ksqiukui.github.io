@@ -328,6 +328,24 @@
             color: #1e40af;
             margin-bottom: 8px;
         }
+
+        /* 代码样式 */
+        code {
+            background-color: #f1f3f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        pre code {
+            display: block;
+            padding: 15px;
+            overflow-x: auto;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -347,7 +365,7 @@
         <div class="sidebar-section">
             <h3>最常用的指令</h3>
             <ul class="sidebar-nav">
-                <li><a href="1.html" class="active">介绍</a></li>
+                <li><a href="1.html">介绍</a></li>
                 <li><a href="2.html">基础 - tp指令</a></li>
             </ul>
         </div>
@@ -358,7 +376,7 @@
             <h3>稍微少用一点的指令</h3>
             <ul class="sidebar-nav">
                 <li><a href="3.html">基础 - 游戏模式</a></li>
-                <li><a href="4.html">进阶 - tag标签</a></li>
+                <li><a href="4.html" class="active">进阶 - tag标签</a></li>
                 <li><a href="5.html">进阶 - 距离（r）</a></li>
                 <li><a href="6.html">基础 - give指令</a></li>
             </ul>
@@ -379,9 +397,12 @@
         <div class="sidebar-section">
             <h3>本页导航</h3>
             <ul class="sidebar-nav">
-                <li><a href="#介绍">介绍</a></li>
-                <li><a href="#提醒">提醒</a></li>
-                <li><a href="#答疑群">答疑群</a></li>
+                <li><a href="#介绍">tag指令概述</a></li>
+                <li><a href="#基本语法">基本语法</a></li>
+                <li><a href="#添加标签">添加标签</a></li>
+                <li><a href="#移除标签">移除标签</a></li>
+                <li><a href="#列出标签">列出标签</a></li>
+                <li><a href="#实际应用">实际应用</a></li>
             </ul>
         </div>
     </aside>
@@ -389,45 +410,112 @@
     <!-- 主内容区域 -->
     <main class="main-content">
         <div class="content-section">
-            <h1>qiukuiの指令</h1>
+            <h1>进阶 - tag标签</h1>
             
-            <h2 id="介绍">介绍</h2>
-            <p>此网站用于MCPE(我的世界基岩版)指令</p>
+            <h2 id="介绍">tag指令概述</h2>
+            <p>tag指令是Minecraft基岩版中用于给实体（玩家、生物等）添加、移除或列出标签的强大工具。标签可以帮助你分类和管理实体，实现更复杂的指令系统。</p>
             
             <div class="note">
                 <div class="note-title">
                     <i class="fas fa-lightbulb"></i>
-                    <span>学习建议</span>
+                    <span>标签的作用</span>
                 </div>
-                <p>学习指令须有些许编程基础，平地起高楼肯定有些地方是听不懂的o</p>
+                <p>标签可以用于：选择特定实体、标记特殊状态的实体、创建实体分组、实现条件判断等。</p>
             </div>
             
-            <h2 id="提醒">提醒</h2>
-            <p>跟着文档学习的过程中会有许多这样的提示框，如果你只看文档学习，请务必仔细查看每一个这样的提示框。</p>
+            <h2 id="基本语法">基本语法</h2>
+            <p>tag指令的基本格式：</p>
+            <pre><code>/tag &lt;目标实体&gt; add &lt;标签名称&gt;
+/tag &lt;目标实体&gt; remove &lt;标签名称&gt;
+/tag &lt;目标实体&gt; list</code></pre>
             
-            <div class="alert">
-                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 重要提示</h4>
-                <p>些许指令需要命令方块运行，或手动运行，执行错误可能出现崩档等不良后果</p>
-            </div>
-            
-            <h2 id="QQ群">QQ群</h2>
-            <p>Q0群：还没有</p>
+            <h2 id="添加标签">添加标签</h2>
+            <p>使用<code>add</code>参数给实体添加标签：</p>
             
             <div class="note">
                 <div class="note-title">
-                    <i class="fas fa-users"></i>
-                    <span>社区支持</span>
+                    <i class="fas fa-lightbulb"></i>
+                    <span>示例</span>
                 </div>
-                <p>还没有社区666</p>
+                <p><code>/tag @p add vip</code> - 给最近的玩家添加"vip"标签</p>
+                <p><code>/tag @e[type=cow] add farm_animal</code> - 给所有牛添加"farm_animal"标签</p>
+                <p><code>/tag @a add team_red</code> - 给所有玩家添加"team_red"标签</p>
             </div>
             
-            <h3>社区规则</h3>
-            <p>1. 提问前请先查阅文档和常见问题</p>
-            <p>2. 保持友善和尊重</p>
-            <p>3. 不讨论与MCPE指令学习无关的内容</p>
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 重要提示</h4>
+                <p>标签名称不能包含空格，可以使用下划线(_)或连字符(-)代替。标签名称区分大小写。</p>
+            </div>
             
-            <h3>资源分享</h3>
-            <p>社区成员经常会分享一些有用的资源和工具，记得经常关注群内消息。（如果有的话）</p>
+            <h2 id="移除标签">移除标签</h2>
+            <p>使用<code>remove</code>参数移除实体上的标签：</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>示例</span>
+                </div>
+                <p><code>/tag @p remove vip</code> - 移除最近玩家的"vip"标签</p>
+                <p><code>/tag @e[tag=farm_animal] remove farm_animal</code> - 移除所有有"farm_animal"标签实体的该标签</p>
+            </div>
+            
+            <h2 id="列出标签">列出标签</h2>
+            <p>使用<code>list</code>参数查看实体上的所有标签：</p>
+            
+            <div class="note">
+                <div class="note-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>示例</span>
+                </div>
+                <p><code>/tag @p list</code> - 列出最近玩家的所有标签</p>
+                <p><code>/tag @e[type=zombie] list</code> - 列出所有僵尸的标签</p>
+            </div>
+            
+            <h2 id="实际应用">实际应用示例</h2>
+            
+            <h3>1. 团队系统</h3>
+            <pre><code># 给玩家分配队伍
+/tag @a[tag=!team_red,tag=!team_blue] add team_red
+/tag @a[tag=!team_red,tag=!team_blue] add team_blue
+
+# 给不同队伍不同效果
+/effect @a[tag=team_red] resistance 10 1
+/effect @a[tag=team_blue] speed 10 1</code></pre>
+            
+            <h3>2. 特殊状态标记</h3>
+            <pre><code># 标记已经获得奖励的玩家
+/tag @p add got_reward
+
+# 检查玩家是否已经获得奖励
+/execute @a[tag=!got_reward] ~~~ give @s diamond 1
+/execute @a[tag=!got_reward] ~~~ tag @s add got_reward</code></pre>
+            
+            <h3>3. 实体分类</h3>
+            <pre><code># 标记所有农场动物
+/tag @e[type=cow] add farm_animal
+/tag @e[type=pig] add farm_animal
+/tag @e[type=chicken] add farm_animal
+
+# 传送所有农场动物到指定位置
+/tp @e[tag=farm_animal] 100 70 100</code></pre>
+            
+            <h3>4. 结合选择器使用</h3>
+            <p>标签可以与选择器结合使用，实现精确的实体选择：</p>
+            <pre><code># 选择有vip标签的玩家
+@a[tag=vip]
+
+# 选择没有vip标签的玩家
+@a[tag=!vip]
+
+# 选择同时有vip和admin标签的玩家
+@a[tag=vip,tag=admin]</code></pre>
+
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 注意事项</h4>
+                <p>1. 标签在实体被卸载或世界重新加载后仍然存在</p>
+                <p>2. 标签不会保存在实体的NBT数据中，与scoreboard不同</p>
+                <p>3. 单个实体最多可以有1024个标签</p>
+            </div>
         </div>
     </main>
     
@@ -435,11 +523,12 @@
     <div class="on-this-page">
         <h3>本页导航</h3>
         <ul class="on-this-page-nav">
-            <li><a href="#介绍">介绍</a></li>
-            <li><a href="#提醒">提醒</a></li>
-            <li><a href="#QQ群">QQ群</a></li>
-            <li><a href="#社区规则">社区规则</a></li>
-            <li><a href="#资源分享">资源分享</a></li>
+            <li><a href="#介绍">tag指令概述</a></li>
+            <li><a href="#基本语法">基本语法</a></li>
+            <li><a href="#添加标签">添加标签</a></li>
+            <li><a href="#移除标签">移除标签</a></li>
+            <li><a href="#列出标签">列出标签</a></li>
+            <li><a href="#实际应用">实际应用</a></li>
         </ul>
     </div>
     

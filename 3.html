@@ -208,6 +208,16 @@
             font-size: 1.2rem;
         }
         
+        /* 代码样式 */
+        code {
+            background-color: #f1f3f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
         /* 目录导航 */
         .on-this-page {
             position: fixed;
@@ -347,7 +357,7 @@
         <div class="sidebar-section">
             <h3>最常用的指令</h3>
             <ul class="sidebar-nav">
-                <li><a href="1.html" class="active">介绍</a></li>
+                <li><a href="1.html">介绍</a></li>
                 <li><a href="2.html">基础 - tp指令</a></li>
             </ul>
         </div>
@@ -357,7 +367,7 @@
         <div class="sidebar-section">
             <h3>稍微少用一点的指令</h3>
             <ul class="sidebar-nav">
-                <li><a href="3.html">基础 - 游戏模式</a></li>
+                <li><a href="3.html" class="active">基础 - 游戏模式</a></li>
                 <li><a href="4.html">进阶 - tag标签</a></li>
                 <li><a href="5.html">进阶 - 距离（r）</a></li>
                 <li><a href="6.html">基础 - give指令</a></li>
@@ -379,9 +389,11 @@
         <div class="sidebar-section">
             <h3>本页导航</h3>
             <ul class="sidebar-nav">
-                <li><a href="#介绍">介绍</a></li>
-                <li><a href="#提醒">提醒</a></li>
-                <li><a href="#答疑群">答疑群</a></li>
+                <li><a href="#介绍">游戏模式概述</a></li>
+                <li><a href="#基本用法">基本用法</a></li>
+                <li><a href="#模式代码">模式代码与数字</a></li>
+                <li><a href="#选择器">使用选择器</a></li>
+                <li><a href="#注意事项">注意事项</a></li>
             </ul>
         </div>
     </aside>
@@ -389,45 +401,68 @@
     <!-- 主内容区域 -->
     <main class="main-content">
         <div class="content-section">
-            <h1>qiukuiの指令</h1>
+            <h1>基础 - 游戏模式 (gamemode)</h1>
             
-            <h2 id="介绍">介绍</h2>
-            <p>此网站用于MCPE(我的世界基岩版)指令</p>
+            <h2 id="介绍">游戏模式概述</h2>
+            <p>gamemode指令用于更改玩家的游戏模式。Minecraft基岩版有四种主要的游戏模式：生存模式、创造模式、冒险模式和旁观模式。</p>
             
             <div class="note">
                 <div class="note-title">
                     <i class="fas fa-lightbulb"></i>
-                    <span>学习建议</span>
+                    <span>基本语法</span>
                 </div>
-                <p>学习指令须有些许编程基础，平地起高楼肯定有些地方是听不懂的o</p>
+                <p>gamemode指令的基本格式：<code>/gamemode &lt;模式&gt; [玩家]</code></p>
             </div>
             
-            <h2 id="提醒">提醒</h2>
-            <p>跟着文档学习的过程中会有许多这样的提示框，如果你只看文档学习，请务必仔细查看每一个这样的提示框。</p>
+            <h2 id="基本用法">基本用法</h2>
+            <p>1. 更改自己的游戏模式：<code>/gamemode creative</code></p>
+            <p>2. 更改其他玩家的游戏模式：<code>/gamemode survival 玩家名</code></p>
+            <p>3. 使用数字代码更改模式：<code>/gamemode 1 @a</code></p>
             
             <div class="alert">
                 <h4><i class="fas fa-exclamation-circle alert-icon"></i> 重要提示</h4>
-                <p>些许指令需要命令方块运行，或手动运行，执行错误可能出现崩档等不良后果</p>
+                <p>在基岩版中，您需要有适当的权限才能使用gamemode指令。在多人游戏中，通常需要管理员或OP权限。</p>
             </div>
             
-            <h2 id="QQ群">QQ群</h2>
-            <p>Q0群：还没有</p>
+            <h2 id="模式代码">模式代码与数字</h2>
+            <p>在Minecraft基岩版中，可以使用模式名称或数字代码：</p>
+            <p>• <code>survival</code> 或 <code>0</code> - 生存模式</p>
+            <p>• <code>creative</code> 或 <code>1</code> - 创造模式</p>
+            <p>• <code>adventure</code> 或 <code>2</code> - 冒险模式</p>
+            <p>• <code>spectator</code> 或 <code>3</code> - 旁观模式 (基岩版1.19.10及以上)</p>
             
             <div class="note">
                 <div class="note-title">
-                    <i class="fas fa-users"></i>
-                    <span>社区支持</span>
+                    <i class="fas fa-lightbulb"></i>
+                    <span>示例</span>
                 </div>
-                <p>还没有社区666</p>
+                <p><code>/gamemode 1</code> - 将自己的模式改为创造模式</p>
+                <p><code>/gamemode adventure Steve</code> - 将Steve改为冒险模式</p>
+                <p><code>/gamemode 0 @a</code> - 将所有玩家改为生存模式</p>
             </div>
             
-            <h3>社区规则</h3>
-            <p>1. 提问前请先查阅文档和常见问题</p>
-            <p>2. 保持友善和尊重</p>
-            <p>3. 不讨论与MCPE指令学习无关的内容</p>
+            <h2 id="选择器">使用选择器</h2>
+            <p>Minecraft基岩版提供了多种选择器来精确定位玩家：</p>
+            <p>• <code>@p</code> - 最近的玩家</p>
+            <p>• <code>@a</code> - 所有玩家</p>
+            <p>• <code>@r</code> - 随机玩家</p>
+            <p>• <code>@e</code> - 所有实体 (但gamemode只能用于玩家)</p>
             
-            <h3>资源分享</h3>
-            <p>社区成员经常会分享一些有用的资源和工具，记得经常关注群内消息。（如果有的话）</p>
+            <h3>选择器示例</h3>
+            <p><code>/gamemode creative @a</code> - 将所有玩家改为创造模式</p>
+            <p><code>/gamemode survival @r</code> - 将随机玩家改为生存模式</p>
+            <p><code>/gamemode adventure @p</code> - 将最近的玩家改为冒险模式</p>
+            
+            <h2 id="注意事项">注意事项</h2>
+            <p>1. 在基岩版中，旁观模式需要版本1.19.10或更高</p>
+            <p>2. 冒险模式可以防止玩家破坏方块，适合制作冒险地图</p>
+            <p>3. 使用选择器时要注意权限，避免意外更改其他玩家的模式</p>
+            <p>4. 在命令方块中使用时，确保有适当的红石信号触发</p>
+            
+            <div class="alert">
+                <h4><i class="fas fa-exclamation-circle alert-icon"></i> 版本兼容性</h4>
+                <p>基岩版和Java版的gamemode指令语法基本相同，但有些细微差别。本文档专注于基岩版用法。</p>
+            </div>
         </div>
     </main>
     
@@ -435,11 +470,11 @@
     <div class="on-this-page">
         <h3>本页导航</h3>
         <ul class="on-this-page-nav">
-            <li><a href="#介绍">介绍</a></li>
-            <li><a href="#提醒">提醒</a></li>
-            <li><a href="#QQ群">QQ群</a></li>
-            <li><a href="#社区规则">社区规则</a></li>
-            <li><a href="#资源分享">资源分享</a></li>
+            <li><a href="#介绍">游戏模式概述</a></li>
+            <li><a href="#基本用法">基本用法</a></li>
+            <li><a href="#模式代码">模式代码与数字</a></li>
+            <li><a href="#选择器">使用选择器</a></li>
+            <li><a href="#注意事项">注意事项</a></li>
         </ul>
     </div>
     

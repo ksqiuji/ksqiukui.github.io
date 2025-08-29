@@ -347,8 +347,8 @@
         <div class="sidebar-section">
             <h3>最常用的指令</h3>
             <ul class="sidebar-nav">
-                <li><a href="1.html" class="active">介绍</a></li>
-                <li><a href="2.html">基础 - tp指令</a></li>
+                <li><a href="1.html">介绍</a></li>
+                <li><a href="2.html" class="active">基础 - tp指令</a></li>
             </ul>
         </div>
         
@@ -389,45 +389,54 @@
     <!-- 主内容区域 -->
     <main class="main-content">
         <div class="content-section">
-            <h1>qiukuiの指令</h1>
+            <h1>基础 - tp指令</h1>
             
-            <h2 id="介绍">介绍</h2>
-            <p>此网站用于MCPE(我的世界基岩版)指令</p>
+            <h2 id="介绍">tp指令概述</h2>
+            <p>tp指令是Minecraft中最常用的指令之一，用于传送实体（玩家、生物等）到指定位置。</p>
             
             <div class="note">
                 <div class="note-title">
                     <i class="fas fa-lightbulb"></i>
-                    <span>学习建议</span>
+                    <span>基本语法</span>
                 </div>
-                <p>学习指令须有些许编程基础，平地起高楼肯定有些地方是听不懂的o</p>
+                <p>tp指令的基本格式：<code>/tp [目标实体] [x] [y] [z]</code></p>
             </div>
             
-            <h2 id="提醒">提醒</h2>
-            <p>跟着文档学习的过程中会有许多这样的提示框，如果你只看文档学习，请务必仔细查看每一个这样的提示框。</p>
+            <h2 id="基本用法">基本用法</h2>
+            <p>1. 传送自己到指定坐标：<code>/tp ~ ~ ~</code></p>
+            <p>2. 传送其他玩家：<code>/tp 玩家名 x y z</code></p>
+            <p>3. 传送实体到玩家：<code>/tp 实体名 玩家名</code></p>
             
             <div class="alert">
                 <h4><i class="fas fa-exclamation-circle alert-icon"></i> 重要提示</h4>
-                <p>些许指令需要命令方块运行，或手动运行，执行错误可能出现崩档等不良后果</p>
+                <p>使用tp指令时需要注意坐标是否安全，避免将玩家传送到墙壁或虚空之中。</p>
             </div>
             
-            <h2 id="QQ群">QQ群</h2>
-            <p>Q0群：还没有</p>
+            <h2 id="相对坐标">相对坐标</h2>
+            <p>在Minecraft中，可以使用相对坐标来进行传送：</p>
+            <p>• <code>~</code> 表示当前坐标</p>
+            <p>• <code>~5</code> 表示当前坐标+5</p>
+            <p>• <code>~-3</code> 表示当前坐标-3</p>
             
             <div class="note">
                 <div class="note-title">
-                    <i class="fas fa-users"></i>
-                    <span>社区支持</span>
+                    <i class="fas fa-lightbulb"></i>
+                    <span>示例</span>
                 </div>
-                <p>还没有社区666</p>
+                <p><code>/tp @p ~ ~5 ~</code> - 将最近的玩家向上传送5格</p>
+                <p><code>/tp @a ~ ~ ~-10</code> - 将所有玩家向北传送10格</p>
             </div>
             
-            <h3>社区规则</h3>
-            <p>1. 提问前请先查阅文档和常见问题</p>
-            <p>2. 保持友善和尊重</p>
-            <p>3. 不讨论与MCPE指令学习无关的内容</p>
+            <h2 id="选择器">使用选择器</h2>
+            <p>Minecraft提供了多种选择器来精确定位实体：</p>
+            <p>• <code>@p</code> - 最近的玩家</p>
+            <p>• <code>@a</code> - 所有玩家</p>
+            <p>• <code>@r</code> - 随机玩家</p>
+            <p>• <code>@e</code> - 所有实体</p>
             
-            <h3>资源分享</h3>
-            <p>社区成员经常会分享一些有用的资源和工具，记得经常关注群内消息。（如果有的话）</p>
+            <h3>选择器示例</h3>
+            <p><code>/tp @a 100 64 100</code> - 将所有玩家传送到(100,64,100)</p>
+            <p><code>/tp @e[type=cow] 200 70 200</code> - 将所有牛传送到(200,70,200)</p>
         </div>
     </main>
     
@@ -435,11 +444,10 @@
     <div class="on-this-page">
         <h3>本页导航</h3>
         <ul class="on-this-page-nav">
-            <li><a href="#介绍">介绍</a></li>
-            <li><a href="#提醒">提醒</a></li>
-            <li><a href="#QQ群">QQ群</a></li>
-            <li><a href="#社区规则">社区规则</a></li>
-            <li><a href="#资源分享">资源分享</a></li>
+            <li><a href="#介绍">tp指令概述</a></li>
+            <li><a href="#基本用法">基本用法</a></li>
+            <li><a href="#相对坐标">相对坐标</a></li>
+            <li><a href="#选择器">使用选择器</a></li>
         </ul>
     </div>
     
